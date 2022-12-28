@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script src="https://unpkg.com/vue@3.2.45/dist/vue.global.js"></script>
+		<link rel="stylesheet" href="style.css" />
+		<title>Learning Vue</title>
+	</head>
+	<body>
+		<div id="app">
+			<div id="nav">
+				<h3>Learning Vue</h3>
+				<div>
+					<p>Items {{cart.length}}</p>
+					<button @click="emptyCart">Clear Cart</button>
+					<button @click="checkout">Checkout</button>
+					<!-- conditional toggle of classes based on truthy statements! -->
+					<!-- <p :class="{'hidden' : total === 0}">Total ${{total}}</p> -->
+					<!-- array based mult-classes toggle -->
+					<p :class="[total === 0 ? 'hidden' : '', total > 150 ? 'max' : '']">
+						Total ${{total}}
+					</p>
+				</div>
+			</div>
+			<div id="main">
+				<div>
+					<h1>{{ title.toUpperCase() }}</h1>
+					<p>{{ artist.split("").join("-") }}</p>
+					<small>Learning variables</small>
+					<br />
+
+					<h4 v-if="tickets === 0">Ugh please add some tickets urgently !!!</h4>
+					<h4 v-else-if="tickets < 5">very few tickets are left, HURRY!</h4>
+					<h1>There are {{ tickets === 0 ? "no" : tickets }} left.</h1>
+					<small>Learning conditionals</small>
+
+					<div style="padding: 1em; background-color: black">
+						<p v-if="isGood === true">I'm Good</p>
+						<p v-else>I'm Bad</p>
+					</div>
+				</div>
+				<div>
+					<img :src="image" :width="imageWidth * 2.5" alt="Vue Logo" />
+				</div>
+				<div>
+					<h1>My Skills</h1>
+					<small>Learning loops thru array</small>
+					<ul>
+						<li v-for="(skill, index) in skills" :key="skill">
+							{{ index }} - {{ skill }}
+						</li>
+					</ul>
+				</div>
+				<div>
+					<h1>Bio</h1>
+					<small>Learning loops thru obj</small>
+					<div
+						style="display: flex; gap: 10px"
+						v-for="(value, key, index) of bio"
+					>
+						<p>{{ index + 1 }}.</p>
+						<p>{{ key }}</p>
+						<p style="color: lightgray">{{ value }}</p>
+					</div>
+				</div>
+			</div>
+			<div id="store">
+				<h1 style="text-align: center">Purchase my over-priced goodies 🙂</h1>
+				<p id="error" v-if="error">
+					Sorry, we are having some issues while fetching data from our server.
+					Please try again later!
+				</p>
+				<div id="products">
+					<product
+						v-for="product in products"
+						:name="product.title"
+						:price="product.price"
+						:image="product.thumbnail"
+						:stock="product.stock"
+						:product="product"
+						@add-to-cart="addToCart"
+					/>
+				</div>
+				<div style="width: 60%; margin: 1em auto; display: grid; gap: 10px">
+					<h1>Hello, please write to us!</h1>
+					<input type="text" v-model="message" placeholder="Your message" />
+					<p>preview: {{ message }}</p>
+				</div>
+			</div>
+		</div>
+		<!-- Import JS -->
+		<script src="./main.js"></script>
+		<script src="./components/product.js"></script>
+		<script>
+			const mountedApp = app.mount("#app");
+		</script>
+	</body>
+</html>
